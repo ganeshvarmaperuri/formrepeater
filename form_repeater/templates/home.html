@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="card card-body mt-5">
+    <h1>Form Repeater</h1>
+    <form method="post" class="inspection_form" id="inspection_form_create">
+        {% csrf_token %}
+        <div class="card card-body inspection_form_block mb-3">
+            {% render_field form.name class="form-control" placeholder='Subject' %}
+            {{form.name.errors}}
+        </div>
+        <div class="card card-body category_container">
+        {{ category_formset.management_form }}
+        {{category_formset.non_form_errors }}
+        {{category_formset.non_field_errors }}
+        {% for category in category_formset %}
+
+            <div class="card card-body category_item">
+            {{category.id}}
+            {% render_field category.category_name class="form-control" placeholder='Category' %}
+            {{category.category_name.errors}}
+            {% render_field category.test class="form-control" placeholder='test' %}
+            {{category.test.errors}}
+
+<!--            {% if category.nested %}-->
+<!--                <div class="card card-body question_container">-->
+<!--                    {{category.nested.management_form}}-->
+<!--                    {{category.nested.non_form_errors }}-->
+<!--                    {{category.nested.non_field_errors }}-->
+<!--                    {% for question in category.nested.forms %}-->
+<!--                    <div class="question_item">-->
+<!--                    {{question.id}}-->
+<!--                    {% render_field question.question class="form-control" placeholder='Question' %}-->
+<!--                    {{question.question.errors}}-->
+<!--                    {% render_field question.test class="form-control" placeholder='test' %}-->
+<!--                    {{question.test.errors}}-->
+<!--                    </div>-->
+<!--                    {% endfor %}-->
+<!--                </div>-->
+
+<!--            {% endif %}-->
+
+
+
+            </div>
+        {% endfor %}
+        </div>
+        <button class="btn btn-primary mt-5" type="submit">Submit</button>
+    </form>
+</div>
+
+
+
+{% endblock %}
